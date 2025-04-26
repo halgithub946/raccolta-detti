@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Raccolta di Detti Popolari</title>
+</head>
+<body>
+  <h1>Raccolta di Detti Popolari</h1>
+
+  <input type="text" id="searchInput" placeholder="Cerca...">
+  <select id="searchMode">
+    <option value="or">OR (una qualsiasi parola)</option>
+    <option value="and">AND (tutte le parole)</option>
+  </select>
+  <button onclick="search()">Cerca</button>
+
+  <div id="results"></div>
+
+  <script>
+    let data = [
+      {
+        "originale": "When in Rome, do as the Romans do.",
+        "traduzione": "Quando sei a Roma, comportati come i Romani.",
+        "vocale": "rome.mp3",
+        "tags": "viaggi usanze cultura"
+      },
+      {
+        "originale": "Better late than never.",
+        "traduzione": "Meglio tardi che mai.",
+        "vocale": "late.mp3",
+        "tags": "tempo pazienza"
+      }
+    ];
+
+    function search() {
+      const input = document.getElementById('searchInput').value.trim().toLowerCase();
+      const mode = document.getElementById('searchMode').value;
+      const keywords = input.split(/\s+/);
+
+      const filtered = data.filter(item => {
+        const text = (item.originale + ' ' + item.traduzione + ' ' + (item.tags || '')).toLowerCase();
+        if (mode === 'and') {
+          return keywords.every(kw => text.includes(kw));
+        } else {
+          return keywords.some(kw => text.includes(kw));
+        }
+      });
+
+      display(filtered);
+    }
+
+    function display(items) {
+      const container = document.getElementById('results');
+      container.innerHTML = '';
+
+      items.forEach(item => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <p><strong>Originale:</strong> ${item.originale}</p>
+          <p><strong>Traduzione:</strong> ${item.traduzione}</p>
+          <audio controls src="audio/${item.vocale}"></audio>
+          <hr>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    window.onload = () => display(data);
+  </script>
+</body>
+</html>
