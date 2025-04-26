@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Crea un Nuovo Detto</title>
+</head>
+<body>
+  <h1>Crea un Nuovo Detto</h1>
+
+  <label>Originale:<br>
+    <input type="text" id="originale" style="width: 100%;">
+  </label><br><br>
+
+  <label>Traduzione in Italiano:<br>
+    <input type="text" id="traduzione" style="width: 100%;">
+  </label><br><br>
+
+  <label>Nome file audio (es. proverbio.mp3):<br>
+    <input type="text" id="vocale" style="width: 100%;">
+  </label><br><br>
+
+  <label>Tags (parole separate da spazio):<br>
+    <input type="text" id="tags" style="width: 100%;">
+  </label><br><br>
+
+  <button onclick="generaCodice()">Genera Codice</button>
+
+  <h2>Codice Generato:</h2>
+  <textarea id="output" rows="10" style="width: 100%;"></textarea>
+
+  <script>
+    function generaCodice() {
+      const originale = document.getElementById('originale').value.trim();
+      const traduzione = document.getElementById('traduzione').value.trim();
+      const vocale = document.getElementById('vocale').value.trim();
+      const tags = document.getElementById('tags').value.trim();
+
+      if (!originale || !traduzione || !vocale) {
+        alert('Compila tutti i campi obbligatori!');
+        return;
+      }
+
+      const codice = `{
+  "originale": "${originale}",
+  "traduzione": "${traduzione}",
+  "vocale": "${vocale}",
+  "tags": "${tags}"
+},`;
+
+      document.getElementById('output').value = codice;
+    }
+  </script>
+</body>
+</html>
